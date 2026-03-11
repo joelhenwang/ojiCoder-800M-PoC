@@ -1,0 +1,128 @@
+{
+  "authoritative_source": "src/eight_hundred_m/config.py:build_default_training_stages",
+  "stages": [
+    {
+      "name": "prototype",
+      "sequence_length": 4096,
+      "objective": "next_token",
+      "target_tokens": 1500000000,
+      "sequence_length_mix": [
+        {"sequence_length": 4096, "weight": 0.9},
+        {"sequence_length": 8192, "weight": 0.1}
+      ],
+      "data_mix": {
+        "code_ratio": 0.45,
+        "docs_ratio": 0.25,
+        "synthetic_ratio": 0.10,
+        "general_ratio": 0.20,
+        "tool_ratio": 0.0
+      },
+      "objective_mix": {
+        "fim_ratio": 0.05,
+        "diff_ratio": 0.0,
+        "repair_ratio": 0.0,
+        "trajectory_summary_ratio": 0.0
+      },
+      "use_repo_formatting": false,
+      "use_tool_formatting": false
+    },
+    {
+      "name": "stage_1_base",
+      "sequence_length": 4096,
+      "objective": "next_token",
+      "target_tokens": 25000000000,
+      "sequence_length_mix": [
+        {"sequence_length": 4096, "weight": 0.85},
+        {"sequence_length": 8192, "weight": 0.15}
+      ],
+      "data_mix": {
+        "code_ratio": 0.45,
+        "docs_ratio": 0.25,
+        "synthetic_ratio": 0.10,
+        "general_ratio": 0.20,
+        "tool_ratio": 0.0
+      },
+      "objective_mix": {
+        "fim_ratio": 0.05,
+        "diff_ratio": 0.0,
+        "repair_ratio": 0.0,
+        "trajectory_summary_ratio": 0.0
+      },
+      "use_repo_formatting": false,
+      "use_tool_formatting": false
+    },
+    {
+      "name": "stage_2_code_cpt",
+      "sequence_length": 8192,
+      "objective": "next_token+fim",
+      "target_tokens": 20000000000,
+      "sequence_length_mix": [
+        {"sequence_length": 4096, "weight": 0.35},
+        {"sequence_length": 8192, "weight": 0.65}
+      ],
+      "data_mix": {
+        "code_ratio": 0.70,
+        "docs_ratio": 0.15,
+        "synthetic_ratio": 0.10,
+        "general_ratio": 0.05,
+        "tool_ratio": 0.0
+      },
+      "objective_mix": {
+        "fim_ratio": 0.15,
+        "diff_ratio": 0.0,
+        "repair_ratio": 0.0,
+        "trajectory_summary_ratio": 0.0
+      },
+      "use_repo_formatting": true,
+      "use_tool_formatting": false
+    },
+    {
+      "name": "stage_3_repair",
+      "sequence_length": 8192,
+      "objective": "repair+diff",
+      "target_tokens": 5000000000,
+      "sequence_length_mix": [
+        {"sequence_length": 8192, "weight": 1.0}
+      ],
+      "data_mix": {
+        "code_ratio": 0.30,
+        "docs_ratio": 0.10,
+        "synthetic_ratio": 0.45,
+        "general_ratio": 0.0,
+        "tool_ratio": 0.15
+      },
+      "objective_mix": {
+        "fim_ratio": 0.0,
+        "diff_ratio": 0.25,
+        "repair_ratio": 0.45,
+        "trajectory_summary_ratio": 0.0
+      },
+      "use_repo_formatting": true,
+      "use_tool_formatting": true
+    },
+    {
+      "name": "stage_4_tool_policy",
+      "sequence_length": 8192,
+      "objective": "tool_trajectory",
+      "target_tokens": 500000000,
+      "sequence_length_mix": [
+        {"sequence_length": 8192, "weight": 1.0}
+      ],
+      "data_mix": {
+        "code_ratio": 0.0,
+        "docs_ratio": 0.0,
+        "synthetic_ratio": 0.25,
+        "general_ratio": 0.0,
+        "tool_ratio": 0.75
+      },
+      "objective_mix": {
+        "fim_ratio": 0.0,
+        "diff_ratio": 0.0,
+        "repair_ratio": 0.30,
+        "trajectory_summary_ratio": 0.30
+      },
+      "use_repo_formatting": true,
+      "use_tool_formatting": true
+    }
+  ]
+}

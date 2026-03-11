@@ -1,0 +1,32 @@
+{
+  "artifact_name": "base-bpe",
+  "artifact_version": "v1",
+  "tokenizer_type": "bpe",
+  "vocab_size": 64000,
+  "byte_fallback": true,
+  "normalization": "code_preserving_v1",
+  "authoritative_source": "src/eight_hundred_m/config.py:TokenizerConfig",
+  "special_tokens": [
+    "<|repo|>",
+    "<|path|>",
+    "<|file_sep|>",
+    "<|diff|>",
+    "<|tool_call|>",
+    "<|tool_result|>",
+    "<|memory|>",
+    "<|plan|>",
+    "<|patch|>"
+  ],
+  "excluded_base_tokens": [
+    "<|im_start|>",
+    "<|im_end|>",
+    "<think>",
+    "</think>"
+  ],
+  "validation_targets": [
+    "whitespace_fidelity",
+    "path_preservation",
+    "diff_markup",
+    "tool_transcript_markup"
+  ]
+}

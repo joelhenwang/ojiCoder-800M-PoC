@@ -1,0 +1,57 @@
+{
+  "artifact_name": "base-data-manifest",
+  "artifact_version": "v1",
+  "filter_policy": {
+    "allow_licenses": [
+      "Apache-2.0",
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "CC-BY-4.0",
+      "MIT",
+      "Python-2.0",
+      "Unicode-3.0",
+      "Unlicense",
+      "Zlib"
+    ],
+    "require_parser_valid_when_available": true,
+    "exclude_generated": true,
+    "exclude_minified": true,
+    "exclude_vendor": true,
+    "file_level_dedup": true,
+    "near_duplicate_dedup": false
+  },
+  "entries": [
+    {
+      "name": "source-code-core",
+      "content_type": "code",
+      "languages": ["Python", "TypeScript", "JavaScript", "Go", "Rust", "Bash", "YAML", "JSON", "SQL", "HTML", "CSS"],
+      "path_glob": "datasets/code/**/*",
+      "weight": 0.65,
+      "license": null
+    },
+    {
+      "name": "code-adjacent-docs",
+      "content_type": "docs",
+      "languages": ["Markdown", "Text"],
+      "path_glob": "datasets/docs/**/*",
+      "weight": 0.2,
+      "license": null
+    },
+    {
+      "name": "synthetic-tasks",
+      "content_type": "synthetic",
+      "languages": ["JSONL", "Markdown"],
+      "path_glob": "datasets/synthetic/**/*",
+      "weight": 0.1,
+      "license": null
+    },
+    {
+      "name": "tool-trajectories",
+      "content_type": "tool",
+      "languages": ["JSONL", "Markdown"],
+      "path_glob": "datasets/tool/**/*",
+      "weight": 0.05,
+      "license": null
+    }
+  ]
+}

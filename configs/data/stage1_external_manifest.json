@@ -1,0 +1,61 @@
+{
+  "artifact_name": "stage1-external-manifest",
+  "artifact_version": "v1",
+  "filter_policy": {
+    "allow_licenses": [
+      "Apache-2.0",
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "CC-BY-4.0",
+      "MIT",
+      "Python-2.0",
+      "Unicode-3.0",
+      "Unlicense",
+      "Zlib"
+    ],
+    "require_parser_valid_when_available": true,
+    "exclude_generated": true,
+    "exclude_minified": true,
+    "exclude_vendor": true,
+    "file_level_dedup": true,
+    "near_duplicate_dedup": false
+  },
+  "entries": [
+    {
+      "name": "the-stack-v2-dedup-stage1",
+      "content_type": "code",
+      "languages": [
+        "C", "C-Sharp", "Dockerfile", "Elixir", "GDScript", "Git_Attributes", "Git_Config", "Git_Revision_List",
+        "Go", "Go_Module", "HTML", "Java", "JavaScript", "Jinja", "JSON", "Lua", "Markdown", "NumPy",
+        "PHP", "PowerShell", "Python", "Rich_Text_Format", "Rust", "Shell", "SQL", "Svelte", "TOML",
+        "TSX", "TypeScript", "Vue", "WebAssembly", "XML", "YAML", "Zig"
+      ],
+      "path_glob": "datasets/the-stack-v2-dedup/**/*.jsonl",
+      "weight": 0.8,
+      "license": null,
+      "source_kind": "jsonl-records",
+      "dataset_name": "bigcode/the-stack-v2-dedup",
+      "record_format": "the-stack-v2-dedup",
+      "text_mode": "content",
+      "provenance_required": true
+    },
+    {
+      "name": "commitpackft-stage1",
+      "content_type": "code",
+      "languages": [
+        "C", "C-Sharp", "Dockerfile", "Elixir", "GDScript", "Git_Attributes", "Git_Config", "Git_Revision_List",
+        "Go", "Go_Module", "HTML", "Java", "JavaScript", "Jinja", "JSON", "Lua", "Markdown", "NumPy",
+        "PHP", "PowerShell", "Python", "Rich_Text_Format", "Rust", "Shell", "SQL", "Svelte", "TOML",
+        "TSX", "TypeScript", "Vue", "WebAssembly", "XML", "YAML", "Zig"
+      ],
+      "path_glob": "datasets/commitpackft/**/*.jsonl",
+      "weight": 0.2,
+      "license": null,
+      "source_kind": "jsonl-records",
+      "dataset_name": "bigcode/commitpackft",
+      "record_format": "commitpackft",
+      "text_mode": "new_contents",
+      "provenance_required": true
+    }
+  ]
+}

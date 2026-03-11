@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eight-hundred-m"
+version = "0.1.0"
+description = "800M dense decoder-only code model research stack"
+readme = "PROJECT.md"
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.10.0",
+    "transformers>=5.2.0",
+    "sentencepiece>=0.2.0",
+    "tokenizers>=0.21.0",
+    "safetensors>=0.5.0",
+    "PyYAML>=6.0.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "ruff>=0.11.0",
+]
+
+[project.scripts]
+eight-hundred-m = "eight_hundred_m.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

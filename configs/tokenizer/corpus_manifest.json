@@ -1,0 +1,33 @@
+{
+  "artifact_name": "tokenizer-corpus-manifest",
+  "artifact_version": "v1",
+  "authoritative_tokenizer_config": "configs/tokenizer/base_bpe.json",
+  "normalization": {
+    "mode": "code_preserving_v1",
+    "normalize_newlines": true,
+    "ensure_trailing_newline": true
+  },
+  "entries": [
+    {
+      "name": "code-primary",
+      "path_glob": "datasets/code/**/*.{py,ts,tsx,js,jsx,go,rs,sh,yaml,yml,json,sql,html,css}",
+      "weight": 0.7,
+      "content_type": "code",
+      "license_required": true
+    },
+    {
+      "name": "docs-adjacent",
+      "path_glob": "datasets/docs/**/*.{md,rst,txt}",
+      "weight": 0.2,
+      "content_type": "docs",
+      "license_required": true
+    },
+    {
+      "name": "synthetic-bootstrap",
+      "path_glob": "datasets/synthetic/**/*.{jsonl,md,txt}",
+      "weight": 0.1,
+      "content_type": "synthetic",
+      "license_required": false
+    }
+  ]
+}
