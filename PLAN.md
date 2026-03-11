@@ -87,72 +87,97 @@ docs/
 ## 6. Milestones
 
 ### M0 — Repository bootstrap
+- Status: complete.
 - Create Python project metadata and dependency definitions.
 - Create package skeleton and config loading utilities.
 - Add initial test layout and base configuration files.
 - Add this execution plan and decision log.
 
 ### M1 — Model skeleton
+- Status: complete for scaffold scope.
 - Implement config dataclasses for model/training/data stages.
 - Implement `RMSNorm`, `SwiGLU`, RoPE helpers, and grouped-attention interfaces.
 - Build a minimal model forward path that validates tensor shapes.
 - Add parameter counting and model-spec validation helpers.
 
 ### M2 — Tokenizer pipeline
-- Train and validate the project-owned `BPE` tokenizer.
+- Status: scaffold complete, artifact training pending.
 - Implement tokenizer corpus sampling and normalization hooks.
 - Define authoritative tokenizer metadata in config and artifact files.
-- Train a 64k tokenizer with byte fallback.
 - Validate preservation of code whitespace and punctuation structure.
+- Add tokenizer runtime loading for real artifact use during downstream packing and smoke checks.
+- Train and validate the project-owned `BPE` tokenizer.
+- Train a 64k tokenizer with byte fallback.
 - Benchmark one reputable external code tokenizer for compression and fidelity only.
 - Version special tokens: `<|repo|>`, `<|path|>`, `<|file_sep|>`, `<|diff|>`, `<|tool_call|>`, `<|tool_result|>`, `<|memory|>`, `<|plan|>`, `<|patch|>`.
 
 ### M3 — Data pipeline MVP
-- Define source manifests and license allowlist.
+- Status: mostly complete for Stage 1 offline flow.
+- Define source manifests and extend them for offline external datasets.
 - Implement file filtering for generated, minified, vendor, and invalid files.
-- Implement file-level dedup and leave near-duplicate detection as a tracked subtask.
+- Implement JSONL adaptation for `bigcode/the-stack-v2-dedup` and `bigcode/commitpackft` offline slices.
+- Restrict `commitpackft` Stage 1 use to `new_contents`.
 - Add language bucketing and sampling reports.
 - Emit train-ready packed text shards with provenance metadata.
+- Implement file-level dedup and leave near-duplicate detection as a tracked subtask.
+- Finish license allowlist enforcement and stronger quality filtering.
 
 ### M4 — Pretraining stage runner
+- Status: planning and run initialization complete, real training loop pending.
 - Implement stage-aware training configs.
 - Encode explicit token budgets and sequence-length mixes in stage configs.
 - Support next-token training first.
 - Add optional fill-in-the-middle formatting hooks.
 - Support mixed sequence lengths with packing.
+- Add CLI-driven run summaries, run initialization, external packing, and smoke-batch validation.
+- Add tensorization, loss computation, and model-forward smoke on packed samples.
 - Add checkpointing, resume, gradient clipping, cosine decay, warmup, EMA, and eval hooks.
 
 ### M5 — Code CPT and repair specialization
+- Status: not started.
 - Add stage-2 code-heavy continued pretraining config.
 - Add stage-3 repair datasets: lint, type, test, diff, and stack-trace repair.
 - Add synthetic task builders and quality filters.
 - Define success criteria for patch minimality and repair accuracy.
 
 ### M6 — Tool-use specialization
+- Status: not started.
 - Create bounded tool schema and serialized trajectory format.
 - Add memory block formatting and summarization targets.
 - Implement adapter-based tool-policy tuning.
 - Keep tool-policy training separate from base assistant training.
 
 ### M7 — Evaluation harness
+- Status: not started.
 - Completion metrics: constrained completion, type-aware completion, `pass@k`.
 - Repair metrics: lint/type/test fix rate and minimal-diff score.
 - Tool metrics: tool-call accuracy, unnecessary tool rate, bounded-turn success.
 - Memory metrics: summary usefulness and compression quality.
 
-## 7. Workstream order
+## 7. Current implementation status
+
+- M0 is complete.
+- M1 is complete for the planned scaffold and shape-validation scope.
+- M2 is complete at the repository level, but still requires training a real tokenizer artifact on the target machine.
+- M3 is complete enough to run Stage 1 offline ingestion and packing once the tokenizer artifact exists.
+- M4 is partially complete: planning, run initialization, and smoke validation exist, but tensorization and actual optimization steps are not implemented yet.
+- M5 through M7 remain future work.
+
+## 8. Workstream order
 
 1. Bootstrap repo and config system.
 2. Freeze architecture in code.
 3. Add shape tests and parameter-count checks.
 4. Add tokenizer training pipeline.
 5. Add data ingestion MVP.
-6. Add stage-1 trainer and smoke tests.
-7. Add stage-2/3 dataset formats.
-8. Add tool-trajectory formats and adapter tuning.
-9. Add full evaluation harness.
+6. Train the real tokenizer artifact and rerun packing with exact token counts.
+7. Add packed-sample tensorization and a model-forward smoke path.
+8. Add a minimal single-node stage-1 trainer.
+9. Add stage-2/3 dataset formats.
+10. Add tool-trajectory formats and adapter tuning.
+11. Add full evaluation harness.
 
-## 8. Decision log
+## 9. Decision log
 
 ### Already decided
 - Use Hugging Face plus custom model code rather than a fully custom training stack.
@@ -160,6 +185,8 @@ docs/
 - Use `AdamW` as the default first optimizer.
 - Use a project-owned `BPE` tokenizer for v1.
 - Exclude chat/thinking wrapper tokens from the base tokenizer.
+- Use offline slices from `bigcode/the-stack-v2-dedup` and `bigcode/commitpackft` for Stage 1 external ingestion.
+- Restrict `commitpackft` Stage 1 ingestion to `new_contents`.
 
 ### Open decisions
 - Exact permissive-license allowlist.
@@ -169,7 +196,7 @@ docs/
 - Preference optimization algorithm.
 - Release policy.
 
-## 9. Immediate execution checklist
+## 10. Immediate execution checklist
 
 - [x] Create project metadata and package layout.
 - [x] Add model config dataclasses.
@@ -181,11 +208,18 @@ docs/
 - [x] Add train-stage artifact/config files.
 - [x] Add config validation for token budgets and stage formatting flags.
 - [x] Add tokenizer/data manifest loading and planning utilities.
-- [ ] Add executable tokenizer validation and data artifact smoke path.
+- [x] Add executable tokenizer validation and data artifact smoke path.
 - [x] Add offline external dataset manifest for Stage 1 sources.
 - [x] Add Stage 1 external dataset adapter scaffolding for The Stack v2 dedup and CommitPackFT.
+- [x] Add heuristic and tokenizer-backed Stage 1 packing.
+- [x] Add tokenizer runtime loading for exact token counting.
+- [x] Add CLI commands for external packing, run initialization, and smoke-batch validation.
+- [ ] Train the real tokenizer artifact on the target machine.
+- [ ] Run Stage 1 external packing with the real tokenizer artifact.
+- [ ] Add packed-sample tensorization and model-forward smoke.
+- [ ] Implement the first minimal real training loop.
 
-## 10. Risks and fallback paths
+## 11. Risks and fallback paths
 
 - If ROCm-specific kernels slow development, keep a pure PyTorch reference path.
 - If `NorMuon` is unstable or costly to implement, keep it out of the critical path.
